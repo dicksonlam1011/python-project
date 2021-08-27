@@ -1,3 +1,4 @@
+from numpy import datetime_data, string_
 import pandas as pd
 import datetime
 
@@ -18,15 +19,16 @@ service = pd.read_excel(ppm_summary, 'Service')
 
 
 # ### Par 4: Data Filtering
-# filter_last_BW=input("Enter the last Release Day in YYYY-MM-DD format: ")
-# year1, month1, day1 = map(int, filter_last_BW.split("-"))
-# filter_last_BW=datetime.datetime(year1, month1, day1)
+filter_last_BW=input("Enter the last Release Day in YYYY-MM-DD format: ")
+year1, month1, day1 = map(int, filter_last_BW.split("-"))
+filter_last_BW=datetime.datetime(year1, month1, day1)
 
-# filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
-# year2, month2, day2 = map(int, filter_next_BW.split("-"))
-# filter_next_BW=datetime.datetime(year2, month2, day2)
+filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
+year2, month2, day2 = map(int, filter_next_BW.split("-"))
+filter_next_BW=datetime.datetime(year2, month2, day2)
 
 def getBiWeeklyData():
+    pd.to_datetime(bi_weekly["Ready for Promotion"])
     condition=(bi_weekly["Ready for Promotion"]>filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW)
     # print(urgent[condition])
     return bi_weekly[condition]
@@ -41,14 +43,20 @@ def getServiceData():
     # print(urgent[condition])
     return service[condition]
 
+data=getUrgentData()
+condition=data["Remarks"].str.contains("Fallback", case=False, na=False)
+print(data["Remarks"][condition])
+
 # print(getBiWeeklyData())
 # print(getUrgentData())
 # print(getServiceData())
 
 # print(bi_weekly["Ready for Promotion"])
-for result in bi_weekly["Ready for Promotion"]:
-   if type(result) is str:
-       print(result)
+# for result in bi_weekly["Ready for Promotion"]:
+#     if type(result) is string_:
+#         print(result)
+
+
 
 
 
