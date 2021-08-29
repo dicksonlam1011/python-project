@@ -27,34 +27,77 @@ filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
 year2, month2, day2 = map(int, filter_next_BW.split("-"))
 filter_next_BW=datetime.datetime(year2, month2, day2)
 
+# get BW data by release day
 def getBiWeeklyData():
     pd.to_datetime(bi_weekly["Ready for Promotion"])
-    condition=(bi_weekly["Ready for Promotion"]>filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW)
+    condition=(bi_weekly["Ready for Promotion"]>=filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW)
     # print(urgent[condition])
     return bi_weekly[condition]
 
+# get Urg data by release day
 def getUrgentData():
-    condition=(urgent["Ready for Promotion"]>filter_last_BW) & (urgent["Ready for Promotion"]<filter_next_BW)
+    condition=(urgent["Ready for Promotion"]>=filter_last_BW) & (urgent["Ready for Promotion"]<filter_next_BW)
     # print(urgent[condition])
     return urgent[condition]
 
+# get SV data by release day
 def getServiceData():
-    condition=(service["Ready for Promotion"]>filter_last_BW) & (service["Ready for Promotion"]<filter_next_BW)
+    condition=(service["Ready for Promotion"]>=filter_last_BW) & (service["Ready for Promotion"]<filter_next_BW)
     # print(urgent[condition])
     return service[condition]
 
+# get Urg Fallback data by release day
+def getFallbackData(data):
+    # data=getBiWeeklyData()
+    condition=data["Remarks"].str.contains("Fallback", case=False, na=False)
+    return data[condition]
+# get all related PPM number BW+Urg+SV
+def getPpmNumber():
+    return (getBiWeeklyData(), getUrgentData(), getServiceData())
+
+
+# get Jira Number into a list
+def getJiraNumber(data):
+    # data=getUrgentData()
+    jiraList=[]
+    data=data["Change Request #"].str.split(", ",expand = True)
+    for col in data.columns:
+        for index, row in data[col].items():
+            if row != None:
+                jiraList.append(row)
+    return jiraList
+
+
 data=getUrgentData()
-condition=data["Remarks"].str.contains("Fallback", case=False, na=False)
-print(data["Remarks"][condition])
+jiraList=[]
+data=data["Change Request #"].str.split(", ",expand = True)
+for col in data.columns:
+    for index, row in data[col].items():
+        if row != None:
+            jiraList.append(row)
+    print(jiraList)
 
-# print(getBiWeeklyData())
-# print(getUrgentData())
-# print(getServiceData())
 
+# Testing call function
+# data=getUrgentData()
+# print(getJiraNumber(data))
+
+
+
+
+# Testing String
 # print(bi_weekly["Ready for Promotion"])
 # for result in bi_weekly["Ready for Promotion"]:
 #     if type(result) is string_:
 #         print(result)
+
+# Ouput to date.txt
+# with open("data.txt", mode="w",encoding="utf8") as file: # Open a file
+#     data=data.to_string()
+#     file.write(data)
+
+
+
 
 
 
