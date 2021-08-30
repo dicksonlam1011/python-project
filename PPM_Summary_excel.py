@@ -118,23 +118,23 @@ def getPilotDate():
 
 
 # get PPM Statistics
-BW=getBiWeeklyData()
-Urg=getUrgentData()
-SV=getServiceData()
-print("Jira Number: ", getJiraNumber(BW)+getJiraNumber(Urg)+getJiraNumber(SV))
-print("PPM Number: ", len(BW)+len(Urg)+len(SV))
-print("Function Involved: ", len(getCombinedFunctionList(BW,Urg,SV)))
-print("Ear Deployment: ", len(getEarData(BW)) + len(getEarData(Urg)))
-print("Backend Deployment: ")
-print("Bi-Weekly Request: ", len(BW))
-print("Urgent Request: ", len(Urg))
-print("Service Request: ", len(SV))
-print("PPM Test Failure/Withdrawn: ", len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
-print("AAT Test Failure: ", len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
-print("PRD Test Failure: ", len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
-print("Pilot Cluster: ", getPilotCluster())
-print("Pilot Promotion Date: ", getPilotDate())
-
+def getPpmStatistics(BW, Urg, SV):
+    # BW=getBiWeeklyData()
+    # Urg=getUrgentData()
+    # SV=getServiceData()
+    print("Jira Number: ", getJiraNumber(BW)+getJiraNumber(Urg)+getJiraNumber(SV))
+    print("PPM Number: ", len(BW)+len(Urg)+len(SV))
+    print("Function Involved: ", len(getCombinedFunctionList(BW,Urg,SV)))
+    print("Ear Deployment: ", len(getEarData(BW)) + len(getEarData(Urg)))
+    print("Backend Deployment: ")
+    print("Bi-Weekly Request: ", len(BW))
+    print("Urgent Request: ", len(Urg))
+    print("Service Request: ", len(SV))
+    print("PPM Test Failure/Withdrawn: ", len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
+    print("AAT Test Failure: ", len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
+    print("PRD Test Failure: ", len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
+    print("Pilot Cluster: ", getPilotCluster())
+    print("Pilot Promotion Date: ", getPilotDate())
 
 
 
