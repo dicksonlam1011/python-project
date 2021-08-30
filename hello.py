@@ -5,5 +5,9 @@ import pandas as pd
 print("Start Python Project!")
 ##############################################################
 
-list=pd.Series(["1,2,3"])
-print(list.str.split(pat=","))
+# list="IMMU-775"
+# list.split("-")
+# print(list[0])
+
+list="IMMU-775"
+print(list.split("-")[0])
