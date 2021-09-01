@@ -3,8 +3,13 @@ import pandas as pd
 import datetime
 
 ### Part 1: Get Data from Summary Sheet
+# Get sample source from local file
 ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
 relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
+
+# Get real source from shared folder
+# ppm_summary = pd.ExcelFile('//hocmsf1/CSC1/CMS_promote/Summary/promotion_summary_2021.xls')
+# relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Deployment_release_schedule.xlsx")
 
 ### Part 2: Specify the Sheet Tab
 bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')
@@ -34,9 +39,12 @@ BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
 # get BW data by release day
 def getBiWeeklyData():
     pd.to_datetime(bi_weekly["Ready for Promotion"])
-    condition=(bi_weekly["Ready for Promotion"]>=filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW) & (pd.isna(bi_weekly["Serial no."])==False)
+    condition=(bi_weekly["Ready for Promotion"]>=filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW) & (pd.isna(bi_weekly["Serial no."])==False) 
     # print(urgent[condition])
+    # if df['a'].dtype != np.number:
     return bi_weekly[condition]
+
+print(getBiWeeklyData())
 
 # get Urg data by release day
 def getUrgentData():
