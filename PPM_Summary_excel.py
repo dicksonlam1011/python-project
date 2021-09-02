@@ -38,7 +38,9 @@ BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
 # get BW data by release day
 def getBiWeeklyData():
     # pd.to_datetime(bi_weekly["Ready for Promotion"])
-    condition=(bi_weekly["Ready for Promotion"]>=filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW) & (pd.isna(bi_weekly["Serial no."])==False) 
+    filter_datetime=bi_weekly["Ready for Promotion"].apply(type)==datetime.datetime
+    # condition=(bi_weekly["Ready for Promotion"]>=filter_last_BW) & (bi_weekly["Ready for Promotion"]<filter_next_BW) & (pd.isna(bi_weekly["Serial no."])==False) & (bi_weekly["Ready for Promotion"].apply(type)==datetime.datetime)
+    condition= (pd.isna(bi_weekly["Serial no."])==False) & (bi_weekly[filter_datetime]["Ready for Promotion"]>=filter_last_BW) & (bi_weekly[filter_datetime]["Ready for Promotion"]<filter_next_BW)
     # print(urgent[condition])
     # if df['a'].dtype != np.number:
     return bi_weekly[condition]
@@ -47,13 +49,17 @@ def getBiWeeklyData():
 
 # get Urg data by release day
 def getUrgentData():
-    condition=(urgent["Ready for Promotion"]>=filter_last_BW) & (urgent["Ready for Promotion"]<filter_next_BW) & (pd.isna(urgent["Serial no."])==False)
+    filter_datetime=urgent["Ready for Promotion"].apply(type)==datetime.datetime
+    condition= (pd.isna(urgent["Serial no."])==False) & (urgent[filter_datetime]["Ready for Promotion"]>=filter_last_BW) & (urgent[filter_datetime]["Ready for Promotion"]<filter_next_BW)
+    # & (urgent["Ready for Promotion"].apply(type)==datetime.datetime)
     # print(urgent[condition])
     return urgent[condition]
 
 # get SV data by release day
 def getServiceData():
-    condition=(service["Ready for Promotion"]>=filter_last_BW) & (service["Ready for Promotion"]<filter_next_BW) & (pd.isna(service["Serial no."])==False)
+    filter_datetime=service["Ready for Promotion"].apply(type)==datetime.datetime
+    condition= (pd.isna(service["Serial no."])==False) & (service[filter_datetime]["Ready for Promotion"]>=filter_last_BW) & (service[filter_datetime]["Ready for Promotion"]<filter_next_BW)
+    # & (service["Ready for Promotion"].apply(type)==datetime.datetime)
     # print(urgent[condition])
     return service[condition]
 
