@@ -1,15 +1,17 @@
 from numpy import datetime_data, string_
 import pandas as pd
 import datetime
+import os
+import json
 
 ### Part 1: Get Data from Summary Sheet
 # Get sample source from local file
-# ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
-# relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
+ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
+relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
 
 # Get real source from shared folder
-ppm_summary = pd.ExcelFile('//hocmsf1/CSC1/CMS_promote/Summary/promotion_summary_2021.xls')
-relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Deployment_release_schedule.xlsx")
+# ppm_summary = pd.ExcelFile('//hocmsf1/CSC1/CMS_promote/Summary/promotion_summary_2021.xls')
+# relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Deployment_release_schedule.xlsx")
 
 ### Part 2: Specify the Sheet Tab
 bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')
@@ -25,15 +27,25 @@ prd_release = pd.read_excel(relese_schedule)
 # print("Data Index", urgent.columns)
 
 # ### Par 4: Data Filtering
-filter_last_BW=input("Enter the last Release Day in YYYY-MM-DD format: ")
-year1, month1, day1 = map(int, filter_last_BW.split("-"))
-filter_last_BW=datetime.datetime(year1, month1, day1)
+try:
+    filter_last_BW=input("Enter the last Release Day in YYYY-MM-DD format: ")
+    year1, month1, day1 = map(int, filter_last_BW.split("-"))
+    filter_last_BW=datetime.datetime(year1, month1, day1)
+except ValueError:
+    raise ValueError("Incorrect data format, should be YYYY-MM-DD")
 
-filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
-year2, month2, day2 = map(int, filter_next_BW.split("-"))
-filter_next_BW=datetime.datetime(year2, month2, day2)
+try:
+    filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
+    year2, month2, day2 = map(int, filter_next_BW.split("-"))
+    filter_next_BW=datetime.datetime(year2, month2, day2)
+except ValueError:
+    raise ValueError("Incorrect data format, should be YYYY-MM-DD")
 
-BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
+try:
+    BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
+    year3, month3 = map(int, BW_releaseSch.split("-"))
+except ValueError:
+    raise ValueError("Incorrect data format, should be YYYY-MM")
 
 # get BW data by release day
 def getBiWeeklyData():
@@ -87,6 +99,17 @@ def getJiraNumber(data):
     # return jiraList
     return len(jiraList)
 
+def getJiraData(data):
+    # data=getUrgentData()
+    jiraList=[]
+    data=data["Change Request #"].str.split(", ",expand = True)
+    for col in data.columns:
+        for index, row in data[col].items():
+            if row != None:
+                jiraList.append(row)
+    # return jiraList
+    return jiraList
+
 # get Function list
 def getFunctionData(data):
     # data=getUrgentData()
@@ -106,6 +129,41 @@ def getCombinedFunctionList(BW,Urg,SV):
     combined_list=getFunctionData(BW)+getFunctionData(Urg)+getFunctionData(SV)
     combined_list=list(dict.fromkeys(combined_list)) # remove duplicate items in the list
     return combined_list
+
+# get Function list
+def getFunctionList(data):
+    # data=getUrgentData()
+    jiraList=[]
+    data=data["Change Request #"].str.split(", ",expand = True)
+    for col in data.columns:
+        for index, row in data[col].items():
+            if row != None:
+                jiraList.append(row.split("-")[0])
+    return jiraList
+
+def getFunctionDataToImage(BW,Urg,SV):
+    all_jiraList=getFunctionList(BW)+getFunctionList(Urg)+getFunctionList(SV)
+    filtered_jiraList=getFunctionData(BW)+getFunctionData(Urg)+getFunctionData(SV)
+    dict={}
+    for count in filtered_jiraList:
+        # print(count, all_jiraList.count(count))
+        dict.update({count:all_jiraList.count(count)})
+    # print(dict)
+    dict={ k:v for k,v in sorted(dict.items(),key=lambda item: item[1], reverse=True)}
+    print(dict)
+    if not os.path.isdir("{}".format(BW_releaseSch)):
+        os.mkdir("{}".format(BW_releaseSch))
+
+    with open(os.path.join("{}".format(BW_releaseSch),"FunctionDataToImage-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+        data=json.dump(dict, file)
+        # file.write(data)
+
+        # import json
+
+        # with open("config.json", mode="w",encoding="utf8") as file:
+        #     json.dump(data, file)
+        # print(data)
+
 
 # get Ear list
 def getEarData(data):
@@ -148,6 +206,29 @@ def getPpmStatistics(BW, Urg, SV):
     print("PRD Test Failure: ", len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
     print("Pilot Cluster: ", getPilotCluster())
     print("Pilot Promotion Date: ", getPilotDate())
+
+
+def writeBackup(BW,Urg,SV):
+    if not os.path.isdir("{}".format(BW_releaseSch)):
+        os.mkdir("{}".format(BW_releaseSch))
+
+    with open(os.path.join("{}".format(BW_releaseSch),"BW-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+        data=BW.to_string()
+        file.write(data)
+
+    with open(os.path.join("{}".format(BW_releaseSch),"Urg-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+        data=Urg.to_string()
+        file.write(data)
+
+    with open(os.path.join("{}".format(BW_releaseSch),"SV-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+        data=SV.to_string()
+        file.write(data)
+
+
+
+# with open("data.csv", mode="w",encoding="utf8") as file: # Open a file
+#     data=bi_weekly["Ready for Promotion"].to_string()
+#     file.write(data)
 
 
 

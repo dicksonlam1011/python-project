@@ -2,35 +2,88 @@ import datetime
 import pandas as pd
 import numpy as np
 from pandas.core.algorithms import isin
+import PPM_Summary_excel as summary
+import os
 
 
 print("Start Python Project!")
 ##############################################################
 
 
-ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
-bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')
-urgent = pd.read_excel(ppm_summary, 'Urgent')
-service = pd.read_excel(ppm_summary, 'Service')
+# ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
+# # bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')
+# # urgent = pd.read_excel(ppm_summary, 'Urgent')
+# # service = pd.read_excel(ppm_summary, 'Service')
 
-####################################################################################
-filter_last_BW=input("Enter the last Release Day in YYYY-MM-DD format: ")
-year1, month1, day1 = map(int, filter_last_BW.split("-"))
-filter_last_BW=datetime.datetime(year1, month1, day1)
+# ####################################################################################
+# filter_last_BW=input("Enter the last Release Day in YYYY-MM-DD format: ")
+# year1, month1, day1 = map(int, filter_last_BW.split("-"))
+# filter_last_BW=datetime.datetime(year1, month1, day1)
 
-filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
-year2, month2, day2 = map(int, filter_next_BW.split("-"))
-filter_next_BW=datetime.datetime(year2, month2, day2)
+# filter_next_BW=input("Enter the next BW Release Day in YYYY-MM-DD format: ")
+# year2, month2, day2 = map(int, filter_next_BW.split("-"))
+# filter_next_BW=datetime.datetime(year2, month2, day2)
 
-BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
-####################################################################################
+# BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
+# ####################################################################################
 
 
 
-filter_datetime=urgent["Ready for Promotion"].apply(type)==datetime.datetime
-condition= (pd.isna(urgent["Serial no."])==False) & (urgent[filter_datetime]["Ready for Promotion"]>=filter_last_BW) & (urgent[filter_datetime]["Ready for Promotion"]<filter_next_BW) 
-print(urgent[condition]["Ready for Promotion"])
+# filter_datetime=urgent["Ready for Promotion"].apply(type)==datetime.datetime
+# condition= (pd.isna(urgent["Serial no."])==False) & (urgent[filter_datetime]["Ready for Promotion"]>=filter_last_BW) & (urgent[filter_datetime]["Ready for Promotion"]<filter_next_BW) 
+# print(urgent[condition]["Ready for Promotion"])
 
+
+# # Ouput to date.txt
+BW=summary.getBiWeeklyData()
+Urg=summary.getUrgentData()
+SV=summary.getServiceData()
+
+
+
+# all_jira=summary.getJiraData(BW)+summary.getJiraData(Urg)+summary.getJiraData(SV)
+all_jiraList=summary.getFunctionList(BW)+summary.getFunctionList(Urg)+summary.getFunctionList(SV)
+filtered_jiraList=summary.getFunctionData(BW)+summary.getFunctionData(Urg)+summary.getFunctionData(SV)
+dict={}
+for count in filtered_jiraList:
+    # print(count, all_jiraList.count(count))
+    dict.update({count:all_jiraList.count(count)})
+# print(dict)
+dict={ k:v for k,v in sorted(dict.items(),key=lambda item: item[1], reverse=True)}
+print(dict)
+
+
+# >>> x = {1: 2, 3: 4, 4: 3, 2: 1, 0: 0}
+# >>> {k: v for k, v in sorted(x.items(), key=lambda item: item[1])}
+# {0: 0, 2: 1, 1: 2, 4: 3, 3: 4}
+
+
+
+
+# Ouput to date.txt
+
+# BW_releaseSch=input("Enter the BW Release Schedule in XXXX-MM formart: ")
+# # year3, month3 = map(int, BW_releaseSch.split("-"))
+
+# # with open(os.path.join('/path/to/Documents',completeName), "w") as file1:
+
+# # with open("python-project-source/{}/BW-{}.csv".format(BW_releaseSch, BW_releaseSch), mode="w",encoding="utf8") as file: # Open a file
+# #     if not os.path.isdir("Urg-{}.csv".format(BW_releaseSch)):
+# #         os.mkdir("Urg-{}.csv".format(BW_releaseSch))
+# if not os.path.isdir("{}".format(BW_releaseSch)):
+#     os.mkdir("{}".format(BW_releaseSch))
+
+# with open( os.path.join("{}".format(BW_releaseSch),"BW-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+#     data=BW.to_string()
+#     file.write(data)
+
+# with open(os.path.join("{}".format(BW_releaseSch),"Urg-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+#     data=Urg.to_string()
+#     file.write(data)
+
+# with open(os.path.join("{}".format(BW_releaseSch),"SV-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+#     data=SV.to_string()
+#     file.write(data)
 
 # print(urgent["Ready for Promotion"])
 

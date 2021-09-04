@@ -5,4 +5,6 @@ Urg=summary.getUrgentData()
 SV=summary.getServiceData()
 
 summary.getPpmStatistics(BW,Urg,SV)
+summary.writeBackup(BW,Urg,SV)
+summary.getFunctionDataToImage(BW,Urg,SV)
 
