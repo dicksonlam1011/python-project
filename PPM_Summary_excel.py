@@ -150,6 +150,7 @@ def getFunctionDataToImage(BW,Urg,SV):
         dict.update({count:all_jiraList.count(count)})
     # print(dict)
     dict={ k:v for k,v in sorted(dict.items(),key=lambda item: item[1], reverse=True)}
+    print("Function Number Involved for this batch of requests")
     print(dict)
     if not os.path.isdir("{}".format(BW_releaseSch)):
         os.mkdir("{}".format(BW_releaseSch))
@@ -203,9 +204,20 @@ def getPpmStatistics(BW, Urg, SV):
     print("Service Request: ", len(SV))
     print("PPM Test Failure/Withdrawn: ", len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
     print("AAT Test Failure: ", len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
+    print("PPS Test Failure: ", len(getFallbackData(BW,"PPS")) + len(getFallbackData(Urg,"PPS")) + len(getFallbackData(SV,"PPS")) )
     print("PRD Test Failure: ", len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
     print("Pilot Cluster: ", getPilotCluster())
     print("Pilot Promotion Date: ", getPilotDate())
+    print("==================================================================================================================")
+    print("Fallback PPM Promotion", getFallbackData(BW,"PPM"), getFallbackData(Urg,"PPM"), getFallbackData(SV,"PPM"))
+    print("==================================================================================================================")
+    print("Fallback AAT Promotion", getFallbackData(BW,"AAT"), getFallbackData(Urg,"AAT"), getFallbackData(SV,"AAT"))
+    print("==================================================================================================================")
+    print("Fallback PPS Promotion", getFallbackData(BW,"PPS"), getFallbackData(Urg,"PPS"), getFallbackData(SV,"PPS"))
+    print("==================================================================================================================")
+    print("Fallback PRD Promotion", getFallbackData(BW,"PRD"), getFallbackData(Urg,"PRD"), getFallbackData(SV,"PRD"))
+    print("==================================================================================================================")
+
 
 
 def writeBackup(BW,Urg,SV):
