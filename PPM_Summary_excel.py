@@ -6,12 +6,12 @@ import json
 
 ### Part 1: Get Data from Summary Sheet
 # Get sample source from local file
-# ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
-# relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
+ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
+relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
 
 # Get real source from shared folder
-ppm_summary = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/promotion_summary_2021_Backup.xls")
-relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/Deployment_release_schedule_Backup.xlsx")
+# ppm_summary = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/promotion_summary_2021_Backup.xls")
+# relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/Deployment_release_schedule_Backup.xlsx")
 
 ### Part 2: Specify the Sheet Tab
 bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')
@@ -190,33 +190,116 @@ def getPilotDate():
 
 
 # get PPM Statistics
+# def getPpmStatistics(BW, Urg, SV):
+#     # BW=getBiWeeklyData()
+#     # Urg=getUrgentData()
+#     # SV=getServiceData()
+#     print("Jira Number: ", getJiraNumber(BW)+getJiraNumber(Urg)+getJiraNumber(SV))
+#     print("PPM Number: ", len(BW)+len(Urg)+len(SV))
+#     print("Function Involved: ", len(getCombinedFunctionList(BW,Urg,SV)))
+#     print("Ear Deployment: ", len(getEarData(BW)) + len(getEarData(Urg)))
+#     print("Backend Deployment: ")
+#     print("Bi-Weekly Request: ", len(BW))
+#     print("Urgent Request: ", len(Urg))
+#     print("Service Request: ", len(SV))
+#     print("PPM Test Failure/Withdrawn: ", len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
+#     print("AAT Test Failure: ", len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
+#     print("PPS Test Failure: ", len(getFallbackData(BW,"PPS")) + len(getFallbackData(Urg,"PPS")) + len(getFallbackData(SV,"PPS")) )
+#     print("PRD Test Failure: ", len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
+#     print("Pilot Cluster: ", getPilotCluster())
+#     print("Pilot Promotion Date: ", getPilotDate())
+#     print("==================================================================================================================")
+#     print("Fallback PPM Promotion", getFallbackData(BW,"PPM"), getFallbackData(Urg,"PPM"), getFallbackData(SV,"PPM"))
+#     print("==================================================================================================================")
+#     print("Fallback AAT Promotion", getFallbackData(BW,"AAT"), getFallbackData(Urg,"AAT"), getFallbackData(SV,"AAT"))
+#     print("==================================================================================================================")
+#     print("Fallback PPS Promotion", getFallbackData(BW,"PPS"), getFallbackData(Urg,"PPS"), getFallbackData(SV,"PPS"))
+#     print("==================================================================================================================")
+#     print("Fallback PRD Promotion", getFallbackData(BW,"PRD"), getFallbackData(Urg,"PRD"), getFallbackData(SV,"PRD"))
+#     print("==================================================================================================================")
+
+
+# get PPM Statistics
 def getPpmStatistics(BW, Urg, SV):
-    # BW=getBiWeeklyData()
-    # Urg=getUrgentData()
-    # SV=getServiceData()
-    print("Jira Number: ", getJiraNumber(BW)+getJiraNumber(Urg)+getJiraNumber(SV))
-    print("PPM Number: ", len(BW)+len(Urg)+len(SV))
-    print("Function Involved: ", len(getCombinedFunctionList(BW,Urg,SV)))
-    print("Ear Deployment: ", len(getEarData(BW)) + len(getEarData(Urg)))
-    print("Backend Deployment: ")
-    print("Bi-Weekly Request: ", len(BW))
-    print("Urgent Request: ", len(Urg))
-    print("Service Request: ", len(SV))
-    print("PPM Test Failure/Withdrawn: ", len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
-    print("AAT Test Failure: ", len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
-    print("PPS Test Failure: ", len(getFallbackData(BW,"PPS")) + len(getFallbackData(Urg,"PPS")) + len(getFallbackData(SV,"PPS")) )
-    print("PRD Test Failure: ", len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
-    print("Pilot Cluster: ", getPilotCluster())
-    print("Pilot Promotion Date: ", getPilotDate())
-    print("==================================================================================================================")
-    print("Fallback PPM Promotion", getFallbackData(BW,"PPM"), getFallbackData(Urg,"PPM"), getFallbackData(SV,"PPM"))
-    print("==================================================================================================================")
-    print("Fallback AAT Promotion", getFallbackData(BW,"AAT"), getFallbackData(Urg,"AAT"), getFallbackData(SV,"AAT"))
-    print("==================================================================================================================")
-    print("Fallback PPS Promotion", getFallbackData(BW,"PPS"), getFallbackData(Urg,"PPS"), getFallbackData(SV,"PPS"))
-    print("==================================================================================================================")
-    print("Fallback PRD Promotion", getFallbackData(BW,"PRD"), getFallbackData(Urg,"PRD"), getFallbackData(SV,"PRD"))
-    print("==================================================================================================================")
+
+    jiraNumber=(getJiraNumber(BW)+getJiraNumber(Urg)+getJiraNumber(SV))
+    ppm_number=(len(BW)+len(Urg)+len(SV))
+    function_involved=(len(getCombinedFunctionList(BW,Urg,SV)))
+    ear_deployment=(len(getEarData(BW)) + len(getEarData(Urg)))
+    # backend=("Backend Deployment: ")
+    bi_weekly_request=(len(BW))
+    urgent_request=(len(Urg))
+    service_request=(len(SV))
+    ppm_fallback=(len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
+    aat_fallback=(len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
+    pps_fallback=(len(getFallbackData(BW,"PPS")) + len(getFallbackData(Urg,"PPS")) + len(getFallbackData(SV,"PPS")) )
+    prd_fallback=(len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
+    pilot_cluster=(getPilotCluster())
+    pilot_date=(getPilotDate())
+    sep_line="=================================================================================================================="
+    ppm_fallback_promotion=(getFallbackData(BW,"PPM"), getFallbackData(Urg,"PPM"), getFallbackData(SV,"PPM"))
+    # print("==================================================================================================================")
+    aat_fallback_promotion=(getFallbackData(BW,"AAT"), getFallbackData(Urg,"AAT"), getFallbackData(SV,"AAT"))
+    # print("==================================================================================================================")
+    pps_fallback_promotion=(getFallbackData(BW,"PPS"), getFallbackData(Urg,"PPS"), getFallbackData(SV,"PPS"))
+    # print("==================================================================================================================")
+    prd_fallback_promotion=(getFallbackData(BW,"PRD"), getFallbackData(Urg,"PRD"), getFallbackData(SV,"PRD"))
+    # print("==================================================================================================================")
+
+    if not os.path.isdir("{}".format(BW_releaseSch)):
+        os.mkdir("{}".format(BW_releaseSch))
+
+    with open(os.path.join("{}".format(BW_releaseSch),"result-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+        # jiraNumber=jiraNumber.to_string()
+        # ppm_number=ppm_number.to_string()
+        # function_involved=function_involved.to_string()
+        # ear_deployment=ear_deployment.to_string()
+        # backend=backend.to_string()
+        # bi_weekly_request=bi_weekly_request.to_string()
+        # urgent_request=urgent_request.to_string()
+        # service_request=service_request.to_string()
+        # ppm_fallback=ppm_fallback.to_string()
+        # aat_fallback=aat_fallback.to_string()
+        # pps_fallback=pps_fallback.to_string()
+        # prd_fallback=prd_fallback.to_string()
+        # pilot_cluster=pilot_cluster.to_string()
+        # pilot_date=pilot_date.to_string()
+        # sep_line=sep_line.to_string()
+        # ppm_fallback_promotion=ppm_fallback_promotion.to_string()
+        # aat_fallback_promotion=aat_fallback_promotion.to_string()
+        # pps_fallback_promotion=pps_fallback_promotion.to_string()
+        # prd_fallback_promotion=prd_fallback_promotion.to_string()
+
+        file.write("Jira Number: "+str(jiraNumber))
+        file.write("\n"+"PPM Number: "+str(ppm_number))
+        file.write("\n"+"Function Involved: "+str(function_involved))
+        file.write("\n"+"Ear Deployment: "+str(ear_deployment))
+        file.write("\n"+"Backend Deployment: ")
+        file.write("\n"+"Bi-Weekly Request: "+ str(bi_weekly_request))
+        file.write("\n"+"Urgent Request: "+str(urgent_request))
+        file.write("\n"+"Service Request: "+str(service_request))
+        file.write("\n"+"PPM Revision Count: ")
+        file.write("\n"+"PPM Test Failure/Withdrawn: "+str(ppm_fallback))
+        file.write("\n"+"AAT Test Failure: "+str(aat_fallback))
+        file.write("\n"+"PPS Test Failure: "+str(pps_fallback))
+        file.write("\n"+"PRD Test Failure: "+str(prd_fallback))
+        file.write("\n"+"Pilot Cluster: "+pilot_cluster)
+        file.write("\n"+"Pilot Promotion Date: "+ str(pilot_date))
+        file.write("\n"+sep_line)
+        file.write("\n"+"Fallback PPM Promotion"+str(ppm_fallback_promotion))
+        file.write("\n"+sep_line)
+        file.write("\n"+"Fallback AAT Promotion"+str(aat_fallback_promotion))
+        file.write("\n"+sep_line)
+        file.write("\n"+"Fallback PPS Promotion"+str(pps_fallback_promotion))
+        file.write("\n"+sep_line)
+        file.write("\n"+"Fallback PRD Promotion"+str(prd_fallback_promotion))
+
+        # BW_data=BW.to_string()
+        # Urg_data=Urg.to_string()
+        # SV_data=SV.to_string()
+        # file.write(BW_data)
+        # file.write(Urg_data)
+        # file.write(SV_data)
 
 
 
@@ -224,17 +307,25 @@ def writeBackup(BW,Urg,SV):
     if not os.path.isdir("{}".format(BW_releaseSch)):
         os.mkdir("{}".format(BW_releaseSch))
 
-    with open(os.path.join("{}".format(BW_releaseSch),"BW-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
-        data=BW.to_string()
-        file.write(data)
+    with open(os.path.join("{}".format(BW_releaseSch),"data-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+        BW_data=BW.to_string()
+        Urg_data=Urg.to_string()
+        SV_data=SV.to_string()
+        file.write(BW_data)
+        file.write(Urg_data)
+        file.write(SV_data)
 
-    with open(os.path.join("{}".format(BW_releaseSch),"Urg-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
-        data=Urg.to_string()
-        file.write(data)
+    # with open(os.path.join("{}".format(BW_releaseSch),"BW-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    #     data=BW.to_string()
+    #     file.write(data)
 
-    with open(os.path.join("{}".format(BW_releaseSch),"SV-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
-        data=SV.to_string()
-        file.write(data)
+    # with open(os.path.join("{}".format(BW_releaseSch),"Urg-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    #     data=Urg.to_string()
+    #     file.write(data)
+
+    # with open(os.path.join("{}".format(BW_releaseSch),"SV-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    #     data=SV.to_string()
+    #     file.write(data)
 
 
 
