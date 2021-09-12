@@ -150,13 +150,14 @@ def getFunctionDataToImage(BW,Urg,SV):
         dict.update({count:all_jiraList.count(count)})
     # print(dict)
     dict={ k:v for k,v in sorted(dict.items(),key=lambda item: item[1], reverse=True)}
-    print("Function Number Involved for this batch of requests")
-    print(dict)
+    # print("Function Number Involved for this batch of requests")
+    # print(dict)
     if not os.path.isdir("{}".format(BW_releaseSch)):
         os.mkdir("{}".format(BW_releaseSch))
 
     with open(os.path.join("{}".format(BW_releaseSch),"FunctionDataToImage-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
-        data=json.dump(dict, file)
+        function_list=json.dump(dict, file)
+        # data=json.dump(dict, file)
         # file.write(data)
 
         # import json
