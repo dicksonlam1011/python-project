@@ -6,12 +6,12 @@ import json
 
 ### Part 1: Get Data from Summary Sheet
 # Get sample source from local file
-ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
-relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
+# ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
+# relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
 
 # Get real source from shared folder
-# ppm_summary = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/promotion_summary_2021_Backup.xls")
-# relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/Deployment_release_schedule_Backup.xlsx")
+ppm_summary = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/promotion_summary_2021_Backup.xls")
+relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/Deployment_release_schedule_Backup.xlsx")
 
 ### Part 2: Specify the Sheet Tab
 bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')

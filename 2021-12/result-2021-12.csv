@@ -28,8 +28,8 @@ Date, Ready for Promotion, Attachment, EAP Attachment/
 EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
 Index: [])
 ==================================================================================================================
-Fallback AAT Promotion(        Serial no. Change Request # Target\nDate  Ready for Promotion Attachment  ... Unnamed: 58 Unnamed: 59 Unnamed: 60 Unnamed: 61 Unnamed: 62
-356  PPM2021_12009          PCP-135          NaN  2021-08-24 00:00:00  Withdrawn  ...         NaN         NaN         NaN         NaN         NaT
+Fallback AAT Promotion(        Serial no. Change Request # Target\nDate  ... Unnamed: 60 Unnamed: 61 Unnamed: 62
+356  PPM2021_12009          PCP-135          NaN  ...         NaN         NaN         NaT
 
 [1 rows x 63 columns], Empty DataFrame
 Columns: [Serial no., Change Request #, Target
@@ -55,8 +55,8 @@ Date, Ready for Promotion, Attachment, EAP Attachment/
 EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
 Index: [])
 ==================================================================================================================
-Fallback PRD Promotion(        Serial no. Change Request # Target\nDate  Ready for Promotion                                         Attachment  ... Unnamed: 58 Unnamed: 59 Unnamed: 60 Unnamed: 61 Unnamed: 62
-363  PPM2021_12016           CDB-70          NaN  2021-08-24 00:00:00  https://wfeng-svc/Runtime/Runtime/Form/CMS__Pr...  ...         NaN         NaN         NaN         NaN         NaT
+Fallback PRD Promotion(        Serial no. Change Request # Target\nDate  ... Unnamed: 60 Unnamed: 61 Unnamed: 62
+363  PPM2021_12016           CDB-70          NaN  ...         NaN         NaN         NaT
 
 [1 rows x 63 columns], Empty DataFrame
 Columns: [Serial no., Change Request #, Target
