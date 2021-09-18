@@ -4,14 +4,17 @@ import datetime
 import os
 import json
 
+# Specify the Summary Year
+summary_year=input("Enter the summary year in YYYY format: ")
+
 ### Part 1: Get Data from Summary Sheet
 # Get sample source from local file
-# ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_2021_Backup.xls')
-# relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
+ppm_summary = pd.ExcelFile('python-project-source/promotion_summary_{}_Backup.xls'.format(summary_year))
+relese_schedule = pd.ExcelFile("python-project-source/Deployment_release_schedule_Backup.xlsx")
 
 # Get real source from shared folder
-ppm_summary = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/promotion_summary_2021_Backup.xls")
-relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/Deployment_release_schedule_Backup.xlsx")
+# ppm_summary = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/promotion_summary_{}_Backup.xls".format(summary_year))
+# relese_schedule = pd.ExcelFile("//hocmsf1/CSC1/CMS_promote/Summary/Backup/Summary_for_Statistics/Deployment_release_schedule_Backup.xlsx")
 
 ### Part 2: Specify the Sheet Tab
 bi_weekly=pd.read_excel(ppm_summary, 'Bi-weekly')
@@ -82,6 +85,18 @@ def getFallbackData(data,request_type):
     condition=(data["Remarks"].str.contains("Test Failure", case=False, na=False) | data["Remarks"].str.contains("Withdrawn", case=False, na=False) | data["Remarks"].str.contains("Fallback", case=False, na=False)) & data["Remarks"].str.contains(request_type, case=False, na=False)
     # return data[condition]
     return data[condition]
+
+# get Fallback Data in Jira ticket
+def getFallbackJiraTicket(data,request_type):
+    # BW=getBiWeeklyData()
+    fallback_data=getFallbackData(data,request_type)
+    jiraList=[]
+    data=fallback_data["Change Request #"].str.split(", ",expand = True)
+    for col in data.columns:
+        for index, row in data[col].items():
+            if row != None:
+                jiraList.append(row)
+    return jiraList
 
 # get all related PPM number BW+Urg+SV
 def getPpmNumber():
@@ -155,7 +170,7 @@ def getFunctionDataToImage(BW,Urg,SV):
     if not os.path.isdir("{}".format(BW_releaseSch)):
         os.mkdir("{}".format(BW_releaseSch))
 
-    with open(os.path.join("{}".format(BW_releaseSch),"FunctionDataToImage-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    with open(os.path.join("{}".format(BW_releaseSch),"FunctionDataToImage-{}.log".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
         function_list=json.dump(dict, file)
         # data=json.dump(dict, file)
         # file.write(data)
@@ -231,10 +246,10 @@ def getPpmStatistics(BW, Urg, SV):
     bi_weekly_request=(len(BW))
     urgent_request=(len(Urg))
     service_request=(len(SV))
-    ppm_fallback=(len(getFallbackData(BW,"PPM")) + len(getFallbackData(Urg,"PPM")) + len(getFallbackData(SV,"PPM")) )
-    aat_fallback=(len(getFallbackData(BW,"AAT")) + len(getFallbackData(Urg,"AAT")) + len(getFallbackData(SV,"AAT")) )
-    pps_fallback=(len(getFallbackData(BW,"PPS")) + len(getFallbackData(Urg,"PPS")) + len(getFallbackData(SV,"PPS")) )
-    prd_fallback=(len(getFallbackData(BW,"PRD")) + len(getFallbackData(Urg,"PRD")) + len(getFallbackData(SV,"PRD")) )
+    ppm_fallback=(len(getFallbackJiraTicket(BW,"PPM")) + len(getFallbackJiraTicket(Urg,"PPM")) + len(getFallbackJiraTicket(SV,"PPM")) )
+    aat_fallback=(len(getFallbackJiraTicket(BW,"AAT")) + len(getFallbackJiraTicket(Urg,"AAT")) + len(getFallbackJiraTicket(SV,"AAT")) )
+    pps_fallback=(len(getFallbackJiraTicket(BW,"PPS")) + len(getFallbackJiraTicket(Urg,"PPS")) + len(getFallbackJiraTicket(SV,"PPS")) )
+    prd_fallback=(len(getFallbackJiraTicket(BW,"PRD")) + len(getFallbackJiraTicket(Urg,"PRD")) + len(getFallbackJiraTicket(SV,"PRD")) )
     pilot_cluster=(getPilotCluster())
     pilot_date=(getPilotDate())
     sep_line="=================================================================================================================="
@@ -250,7 +265,7 @@ def getPpmStatistics(BW, Urg, SV):
     if not os.path.isdir("{}".format(BW_releaseSch)):
         os.mkdir("{}".format(BW_releaseSch))
 
-    with open(os.path.join("{}".format(BW_releaseSch),"result-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    with open(os.path.join("{}".format(BW_releaseSch),"result-{}.log".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
         # jiraNumber=jiraNumber.to_string()
         # ppm_number=ppm_number.to_string()
         # function_involved=function_involved.to_string()
@@ -308,7 +323,7 @@ def writeBackup(BW,Urg,SV):
     if not os.path.isdir("{}".format(BW_releaseSch)):
         os.mkdir("{}".format(BW_releaseSch))
 
-    with open(os.path.join("{}".format(BW_releaseSch),"data-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    with open(os.path.join("{}".format(BW_releaseSch),"data-{}.log".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
         BW_data=BW.to_string()
         Urg_data=Urg.to_string()
         SV_data=SV.to_string()
@@ -316,21 +331,21 @@ def writeBackup(BW,Urg,SV):
         file.write(Urg_data)
         file.write(SV_data)
 
-    # with open(os.path.join("{}".format(BW_releaseSch),"BW-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    # with open(os.path.join("{}".format(BW_releaseSch),"BW-{}.log".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
     #     data=BW.to_string()
     #     file.write(data)
 
-    # with open(os.path.join("{}".format(BW_releaseSch),"Urg-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    # with open(os.path.join("{}".format(BW_releaseSch),"Urg-{}.log".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
     #     data=Urg.to_string()
     #     file.write(data)
 
-    # with open(os.path.join("{}".format(BW_releaseSch),"SV-{}.csv".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
+    # with open(os.path.join("{}".format(BW_releaseSch),"SV-{}.log".format(BW_releaseSch)), mode="w",encoding="utf8") as file: # Open a file
     #     data=SV.to_string()
     #     file.write(data)
 
 
 
-# with open("data.csv", mode="w",encoding="utf8") as file: # Open a file
+# with open("data.log", mode="w",encoding="utf8") as file: # Open a file
 #     data=bi_weekly["Ready for Promotion"].to_string()
 #     file.write(data)
 
