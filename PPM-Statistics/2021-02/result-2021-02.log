@@ -1,0 +1,68 @@
+Jira Number: 91
+PPM Number: 77
+Function Involved: 40
+Ear Deployment: 35
+Backend Deployment: 
+Bi-Weekly Request: 17
+Urgent Request: 34
+Service Request: 26
+PPM Revision Count: 
+PPM Test Failure/Withdrawn: 2
+AAT Test Failure: 4
+PPS Test Failure: 0
+PRD Test Failure: 0
+Pilot Cluster: HKWC
+Pilot Promotion Date: 2021-02-23 00:00:00
+==================================================================================================================
+Fallback PPM Promotion(Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61, Unnamed: 62]
+Index: [],        Serial no. Change Request # Target\nDate  Ready for Promotion Attachment EAP Attachment/\nEAP included? (Y/N) Description     Version Urgency  ... Unnamed: 53 Unnamed: 54 Unnamed: 55 NTWC Unnamed: 57 Unnamed: 58 Unnamed: 59 Unnamed: 60 Unnamed: 61
+61  PPM2021_U0055        IPMOE-216          NaN  2021-02-25 00:00:00  Withdrawn                                  NaN         NaN  2021-U0055     Urg  ...         NaN         NaN         NaN  NaN         NaN         NaN         NaN         NaN         NaN
+
+[1 rows x 62 columns],        Serial no. Change Request # Target\nDate  Ready for Promotion Attachment EAP Attachment/\nEAP included? (Y/N) Description     Version Urgency  ... Unnamed: 53 Unnamed: 54  Unnamed: 55  NTWC Unnamed: 57 Unnamed: 58 Unnamed: 59 Unnamed: 60 Unnamed: 61
+51  PPM2021_S0051    CORPALERT-114          NaN  2021-02-23 00:00:00        NaN                            Withdrawn   Withdrawn  2021-S0051      SV  ...         NaN         NaN          NaN   NaN         NaN         NaN         NaN         NaN         NaN
+
+[1 rows x 62 columns])
+==================================================================================================================
+Fallback AAT Promotion(       Serial no. Change Request # Target\nDate  Ready for Promotion                                         Attachment            EAP Attachment/\nEAP included? (Y/N)  ... Unnamed: 57 Unnamed: 58 Unnamed: 59 Unnamed: 60 Unnamed: 61 Unnamed: 62
+58  PPM2021_02012           ICBN-7          NaN  2021-02-08 00:00:00  https://wfeng-svc/Runtime/Runtime/Form/CMS__Pr...  ..\EAP\Forms\EAP_CmspriCorpNdors_21_02012.xlsx  ...         NaN         NaN         NaN         NaN         NaN         NaT
+
+[1 rows x 63 columns],        Serial no. Change Request #         Target\nDate  Ready for Promotion Attachment EAP Attachment/\nEAP included? (Y/N)                                        Description  ... Unnamed: 55 NTWC Unnamed: 57 Unnamed: 58 Unnamed: 59 Unnamed: 60 Unnamed: 61
+45  PPM2021_U0041   PSP-42, PSP-43  2021-02-19 00:00:00  2021-02-19 00:00:00  Withdrawn                                    Y  PSP-42: [PSP] Create a New PSP Patient List na...  ...         NaN  NaN         NaN         NaN         NaN         NaN         NaN
+46  PPM2021_U0042           PSP-45  2021-02-19 00:00:00  2021-02-19 00:00:00  Withdrawn                                  NaN  PSP-45: [PSP] Forwarder script of PSP-42 and P...  ...         NaN  NaN         NaN         NaN         NaN         NaN         NaN
+
+[2 rows x 62 columns], Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
+Index: [])
+==================================================================================================================
+Fallback PPS Promotion(Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61, Unnamed: 62]
+Index: [], Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
+Index: [], Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
+Index: [])
+==================================================================================================================
+Fallback PRD Promotion(Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61, Unnamed: 62]
+Index: [], Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
+Index: [], Empty DataFrame
+Columns: [Serial no., Change Request #, Target
+Date, Ready for Promotion, Attachment, EAP Attachment/
+EAP included? (Y/N), Description, Version, Urgency, Classification, Weblogic Cluster, EAR file, Datasource, Team, Requested by, Remarks, EAP (PROD), VH3, CORP, HKEC, Unnamed: 20, Unnamed: 21, Unnamed: 22, Unnamed: 23, Unnamed: 24, HKWC, Unnamed: 26, Unnamed: 27, Unnamed: 28, Unnamed: 29, Unnamed: 30, Unnamed: 31, Unnamed: 32, KCC, Unnamed: 34, Unnamed: 35, Unnamed: 36, Unnamed: 37, Unnamed: 38, Unnamed: 39, Unnamed: 40, KEC, Unnamed: 42, Unnamed: 43, KWC, Unnamed: 45, Unnamed: 46, Unnamed: 47, Unnamed: 48, NTEC, Unnamed: 50, Unnamed: 51, Unnamed: 52, Unnamed: 53, Unnamed: 54, Unnamed: 55, NTWC, Unnamed: 57, Unnamed: 58, Unnamed: 59, Unnamed: 60, Unnamed: 61]
+Index: [])
