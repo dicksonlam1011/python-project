@@ -4,6 +4,10 @@ import datetime
 import os
 import json
 
+# HA Source Path
+project_path="//dc7shdns02b/CSC1/TEAMFOLDER/PPM/Statistics_and_minutes/PPM_Statistics/2021"
+project_source_path="//dc7shdns02b/CSC1/TEAMFOLDER/PPM/Statistics_and_minutes/PPM_Statistics/2021/source"
+
 # Dickson-Mac Path Source
 project_path="/Users/lamlapman/Desktop/Python-Development/python-project/PPM-Statistics"
 project_source_path="/Users/lamlapman/Desktop/Python-Development/python-project/PPM-Statistics/python-project-source"
