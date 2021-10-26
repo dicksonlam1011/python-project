@@ -82,7 +82,7 @@ def getServiceData():
 def getFallbackData(data,request_type):
     # data=getBiWeeklyData()
     # request_type="AAT"
-    condition=(data["Remarks"].str.contains("Test Failure", case=False, na=False) | data["Remarks"].str.contains("Withdrawn", case=False, na=False) | data["Remarks"].str.contains("Fallback", case=False, na=False)) & data["Remarks"].str.contains(request_type, case=False, na=False)
+    condition=(data["Remarks"].str.contains("Test Failure", case=False, na=False) | data["Remarks"].str.contains("Withdrawn", case=False, na=False) | data["Remarks"].str.contains("Rollback", case=False, na=False) | data["Remarks"].str.contains("Fallback", case=False, na=False)) & data["Remarks"].str.contains(request_type, case=False, na=False)
     # return data[condition]
     return data[condition]
 

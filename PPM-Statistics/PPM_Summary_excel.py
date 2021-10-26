@@ -90,7 +90,7 @@ def getServiceData():
 def getFallbackData(data,request_type):
     # data=getBiWeeklyData()
     # request_type="AAT"
-    condition=(data["Remarks"].str.contains("Test Failure", case=False, na=False) | data["Remarks"].str.contains("Withdrawn", case=False, na=False) | data["Remarks"].str.contains("Fallback", case=False, na=False)) & data["Remarks"].str.contains(request_type, case=False, na=False)
+    condition=(data["Remarks"].str.contains("Test Failure", case=False, na=False) | data["Remarks"].str.contains("Withdrawn", case=False, na=False) | data["Remarks"].str.contains("Fallback", case=False, na=False) | data["Remarks"].str.contains("Rollback", case=False, na=False) ) & data["Remarks"].str.contains(request_type, case=False, na=False)
     # return data[condition]
     return data[condition]
 
@@ -298,11 +298,11 @@ def getPpmStatistics(BW, Urg, SV):
         file.write("\n"+"PPM Number: "+str(ppm_number))
         file.write("\n"+"Function Involved: "+str(function_involved))
         file.write("\n"+"Ear Deployment: "+str(ear_deployment))
-        file.write("\n"+"Backend Deployment: ")
+        file.write("\n"+"Backend Deployment: XXX")
         file.write("\n"+"Bi-Weekly Request: "+ str(bi_weekly_request))
         file.write("\n"+"Urgent Request: "+str(urgent_request))
         file.write("\n"+"Service Request: "+str(service_request))
-        file.write("\n"+"PPM Revision Count: ")
+        file.write("\n"+"PPM Revision Count: XXX")
         file.write("\n"+"PPM Test Failure/Withdrawn: "+str(ppm_fallback))
         file.write("\n"+"AAT Test Failure: "+str(aat_fallback))
         file.write("\n"+"PPS Test Failure: "+str(pps_fallback))
