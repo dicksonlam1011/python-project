@@ -115,8 +115,9 @@ def draftEmail():
     print("Send out draft email for {}".format(PPM_num))
 
 
-# draftEmail()
-print(description)
+draftEmail()
+# print(description)
+
 
 
 
