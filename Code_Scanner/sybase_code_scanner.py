@@ -6,8 +6,8 @@ ppm_sharefolder_path="//dc7shdns02b/CSC1/TEAMFOLDER/PPM"
 # month_path=input("Please enter the PPM Month folder (eg: 2021_12): \n")
 # ppm_folder=input("Please enter the PPM Folder Name (eg: 2021-S0492(K2)): \n")
 month_path="2021_12"
-# ppm_folder="Dickson_test"
-ppm_folder="2021-U0313(K2)"
+ppm_folder="Dickson_test"
+# ppm_folder=""
 mypath="{}/{}/{}".format(ppm_sharefolder_path, month_path, ppm_folder)
 
 def getAllSqlFileList():
@@ -51,6 +51,14 @@ def getFileNameOnly(sql_file_list):
         filename.append(sql_file.split("\\")[-1])
     return filename
 
+# get the last 4 element in the file path list
+def getFileName(sql_file_list):
+    temp_list=[]
+    file_path=[]
+    for sql_file in sql_file_list:
+        file_path.append('/'.join(map(str, sql_file.split("\\")[-4:])))
+    return file_path
+
 # Function 1: check header
 def checkHeaderInTheScript(content):
     filename_list=getFileNameOnly(getAllSqlFileList())
@@ -65,7 +73,7 @@ def checkSybaseHeader(sql_file_list):
             file = file.read()
             HeaderMatchedList.append(checkHeaderInTheScript(file))
 
-    filename_list=getFileNameOnly(getAllSqlFileList())
+    filename_list=getFileName(getAllSqlFileList())
     # print(filename_list)
     # print(HeaderMatchedList)
     return set(filename_list).difference(HeaderMatchedList)
@@ -73,12 +81,13 @@ def checkSybaseHeader(sql_file_list):
 # Function 2: check basic syntax
 def checkSybaseBasicSyntax(sql_file_list, string_to_search):
     checkBasicSyntaxResult=[]
+    # print(sql_file_list)
     for sql_file in sql_file_list:
         with open(sql_file, 'r', encoding="utf-8") as file:
             file = file.read()
-            if (string_to_search.lower() not in file) and (string_to_search.upper() not in file):
+            if (string_to_search.lower() not in file) and (string_to_search.upper() not in file) and (string_to_search not in file):
                 checkBasicSyntaxResult.append(sql_file)
-    return getFileNameOnly(checkBasicSyntaxResult)
+    return getFileName(checkBasicSyntaxResult)
 
 # Function 3: check db and table match
 # def checkSybaseDBandTable(sql_file_list, use_db, table):
@@ -101,7 +110,44 @@ def checkSybaseHospcode(sql_file_list, hospcode):
             if hospcode in file:
                 checkHospcodeResult.append(sql_file)
 
-    return getFileNameOnly(checkHospcodeResult)
+    return getFileName(checkHospcodeResult)
+
+# Function 5: check script special issue
+def checkScriptSpecialIssues(sql_file_list, string_to_search):
+    check_script_result=[]
+    for sql_file in sql_file_list:
+        with open(sql_file, 'r', encoding="utf-8") as file:
+            file = file.read()
+            if (string_to_search.lower() in file) or (string_to_search.upper() in file):
+                check_script_result.append(sql_file)
+    return getFileName(check_script_result)
+
+# print(checkScriptSpecialIssues(getAllSqlFileList(),"menu_function_list"))
+
+# Function 6: check manual cicd unsupported scripts
+def checkUnsupportedScript(sql_file_list, string_to_search):
+    filtered_list=[]
+    for sql_file in sql_file_list:
+        with open(sql_file, 'r', encoding="utf-8") as file:
+            file = file.read()
+            if ((string_to_search.lower() in file) or (string_to_search.upper() in file)) and ("_imp-manual_" not in sql_file) and ("_manual_" not in sql_file):
+                filtered_list.append(sql_file)
+    filtered_list=getFileName(filtered_list)
+    # filename_list=getFileNameOnly(getAllSqlFileList())
+    # print(filename_list)
+    # print(HeaderMatchedList)
+    return filtered_list
+
+# Function 7: check file path
+def checkFilePath(sql_file_list, string_to_search_1, string_to_search_2):
+    filtered_list=[]
+    # print(sql_file_list)
+    for sql_file in sql_file_list:
+        if (string_to_search_1 in sql_file) and (string_to_search_2 in sql_file):
+            filtered_list.append(sql_file)
+    return getFileName(filtered_list)
+
+
 
 def OutputResult():
     # check header match
@@ -130,27 +176,64 @@ def OutputResult():
     
 
     file = open(os.path.join(mypath,"{}-checking_result.log".format(ppm_folder)), mode="w",encoding="utf8")
-    header_result=checkSybaseHeader(getAllSqlFileList())
-    basic_syntax_result=checkSybaseBasicSyntax(getAllSqlFileList(),"go")
-    corp_hospcode_result=checkSybaseHospcode(getSpecificTypeSqlFilelist("_corp-db_"),"##hospcode##")
-    hosp_hospcode_result=checkSybaseHospcode(getSpecificTypeSqlFilelist("_imp-corp-db_"),"HAH" )
+    header_scan=checkSybaseHeader(getAllSqlFileList())
+    basic_syntax_scan=checkSybaseBasicSyntax(getAllSqlFileList(),"go")
+    corp_hospcode_scan=checkSybaseHospcode(getSpecificTypeSqlFilelist("_corp-db_"),"##hospcode##")
+    hosp_hospcode_scan=checkSybaseHospcode(getSpecificTypeSqlFilelist("_imp-corp-db_"),"HAH" )
+    corp7_menu_function_list_scan=checkScriptSpecialIssues(getAllSqlFileList(),"menu_function_list")
+    alter_script_scan=checkUnsupportedScript(getAllSqlFileList(),"alter table")
+    local_moe_manual_content_scan=checkSybaseBasicSyntax(getSpecificTypeSqlFilelist("LOCAL_MOE"), "XXXmoe_db")
+    loe_manual_scan=checkFilePath(getAllSqlFileList(),"LOE","_manual_")
+    local_moe_manual_scan=checkFilePath(getAllSqlFileList(),"LOCAL_MOE","_manual_")
 
-    file.write("=================Header Scanning Result====================="+"\n")
-    for result in header_result:
-        file.write(result+": Header Result Failed!! "+"\n")
+    file.write("Scanning 1: =================Header scanning result====================="+"\n")
+    file.write("==> The following script(s) Header Information (script name) does NOT matched with the source"+"\n")
+    for result in header_scan:
+        # file.write(result+": Header Result Failed!! "+"\n")
+        file.write(result+"\n")
 
-    file.write("=================Syntax Scanning Result====================="+"\n")
-    for result in basic_syntax_result:
-        file.write(result+": Go is missing in the script !! "+"\n")
+    file.write("\n"+"Scanning 2: =================Syntax scanning result====================="+"\n")
+    file.write("==> The following script(s) missing 'GO' in the scripts"+"\n")
+    for result in basic_syntax_scan:
+        # file.write(result+": Go is missing in the script !! "+"\n")
+        file.write(result+"\n")
 
-    file.write("=================Central script variable Scanning Result====================="+"\n") 
-    for result in corp_hospcode_result:
-        file.write(result+": Central script variable mistake!! "+"\n")
+    file.write("\n"+"Scanning 3: =================Central/Hospital E-form variable scanning result====================="+"\n") 
+    file.write("==> The following script(s) occurred E-form variables mistables "+"\n")
+    for result in corp_hospcode_scan:
+        # file.write(result+": Central script variable mistake!! "+"\n")
+        file.write(result+"\n")
+    for result in hosp_hospcode_scan:
+        # file.write(result+": Hospital script variable mistake!! "+"\n")
+        file.write(result+"\n")
 
-    file.write("=================Hospital script variable Scanning Result====================="+"\n") 
-    for result in hosp_hospcode_result:
-        file.write(result+": Hospital script variable mistake!! "+"\n")
 
+    file.write("\n"+"Scanning 4: =================Corp 7 menu function list scanning result====================="+"\n") 
+    file.write("==> The following script(s) involve CORP7 menu function list, please check the E-form setup information for the step of refresh cache"+"\n")
+    for result in corp7_menu_function_list_scan:
+        # file.write(result+": Scanned presence of CORP7 menu function list script, please state refresh cache step in promotion form "+"\n")
+       file.write(result+"\n")
+
+    file.write("\n"+"Scanning 5: =================Alter scripts scanning result====================="+"\n") 
+    file.write("==> The following script(s) of Alter Tables are NOT set to be manual types"+"\n")
+    for result in alter_script_scan:
+        # file.write(result+": Scanned alter scripts are NOT set to be manual workflow"+"\n")
+        file.write(result+"\n")
+
+    file.write("\n"+"Scanning 6: =================Local MOE scripts scanning result====================="+"\n") 
+    file.write("==> The following local moe script(s) missing 'XXXmoe_db' in PPM"+"\n")
+    for result in local_moe_manual_content_scan:
+        file.write(result+": Scanned local moe imp-manual scripts no XXXmoe_db"+"\n")
+
+    file.write("\n"+"Scanning 7: =================Manual types of LOE and Local MOE scripts scanning result====================="+"\n") 
+    file.write("==> The following local moe/LOE script(s) are set to wrong source type"+"\n")
+    for result in loe_manual_scan:
+        # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
+        file.write(result+"\n")
+    for result in local_moe_manual_scan:
+        # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
+        file.write(result+"\n")
+        
     file.close()
 
 OutputResult()
