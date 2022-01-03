@@ -72,11 +72,26 @@ def checkSybaseHeader(sql_file_list):
         with open(sql_file, 'r', encoding="utf-8") as file:
             file = file.read()
             HeaderMatchedList.append(checkHeaderInTheScript(file))
+    
+    # print(HeaderMatchedList)
+    
+    # HeaderMatchedList_full_path = []
+    # for filename in HeaderMatchedList:
+    #     if filename != None:
+    #         HeaderMatchedList_full_path.append(os.path.abspath(filename))
+    #     # HeaderMatchedList_full_path.append(normpath(join(os.getcwd(),filename)))
+    # # for (dirpath, subdirs, files) in os.walk(mypath):
+    # #     for x in files:
+    # #         HeaderMatchedList_full_path.append(os.path.join(dirpath, x))
+    
+    # print(HeaderMatchedList_full_path)
 
-    filename_list=getFileName(getAllSqlFileList())
+    filename_list=getFileNameOnly(getAllSqlFileList())
     # print(filename_list)
     # print(HeaderMatchedList)
     return set(filename_list).difference(HeaderMatchedList)
+
+# checkSybaseHeader(getAllSqlFileList())
 
 # Function 2: check basic syntax
 def checkSybaseBasicSyntax(sql_file_list, string_to_search):
@@ -182,6 +197,7 @@ def OutputResult():
     hosp_hospcode_scan=checkSybaseHospcode(getSpecificTypeSqlFilelist("_imp-corp-db_"),"HAH" )
     corp7_menu_function_list_scan=checkScriptSpecialIssues(getAllSqlFileList(),"menu_function_list")
     alter_script_scan=checkUnsupportedScript(getAllSqlFileList(),"alter table")
+    db_option_scan=checkUnsupportedScript(getAllSqlFileList(),"sp_dboption")
     local_moe_manual_content_scan=checkSybaseBasicSyntax(getSpecificTypeSqlFilelist("LOCAL_MOE"), "XXXmoe_db")
     loe_manual_scan=checkFilePath(getAllSqlFileList(),"LOE","_manual_")
     local_moe_manual_scan=checkFilePath(getAllSqlFileList(),"LOCAL_MOE","_manual_")
@@ -234,6 +250,9 @@ def OutputResult():
     if len(alter_script_scan)>=1:
         file.write("==> The following script(s) of Alter Tables are NOT set to be manual types"+"\n")
         for result in alter_script_scan:
+            # file.write(result+": Scanned alter scripts are NOT set to be manual workflow"+"\n")
+            file.write(result+"\n")
+        for result in db_option_scan:
             # file.write(result+": Scanned alter scripts are NOT set to be manual workflow"+"\n")
             file.write(result+"\n")
     else:
