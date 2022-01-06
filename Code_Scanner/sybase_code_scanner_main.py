@@ -31,7 +31,7 @@ def RunCodeScanner(mypath):
                 # file.write(result+": Go is missing in the script !! "+"\n")
                 file.write(result+"\n")
     else:
-        file.write("Scanned script syntax information PASS"+"\n")
+        file.write("PASS: script syntax isse"+"\n")
 
 
     file.write("\n"+"Scanning 2: =================Central/Hospital E-form variable scanning result====================="+"\n") 
@@ -44,10 +44,10 @@ def RunCodeScanner(mypath):
             # file.write(result+": Hospital script variable mistake!! "+"\n")
             file.write(result+"\n")
     else:
-        file.write("Scanned script e-form variable PASS"+"\n")
+        file.write("PASS: e-form variable"+"\n")
 
     file.write("\n"+"Scanning 3: =================Alter scripts scanning result====================="+"\n") 
-    if len(alter_script_scan)>=1:
+    if (len(alter_script_scan)>=1) or (len(db_option_scan)>=1):
         file.write("==> The following script(s) of Alter Tables are NOT set to be manual types"+"\n")
         for result in alter_script_scan:
             # file.write(result+": Scanned alter scripts are NOT set to be manual workflow"+"\n")
@@ -56,7 +56,7 @@ def RunCodeScanner(mypath):
             # file.write(result+": Scanned alter scripts are NOT set to be manual workflow"+"\n")
             file.write(result+"\n")
     else:
-        file.write("Scanned no alter scripts set to be wrong source type"+"\n")
+        file.write("PASS: no alter scripts are set wrong source type"+"\n")
 
 
     file.write("\n"+"Scanning 4: =================Local MOE scripts scanning result====================="+"\n") 
@@ -65,11 +65,11 @@ def RunCodeScanner(mypath):
         for result in local_moe_manual_content_scan:
             file.write(result+": Scanned local moe imp-manual scripts no XXXmoe_db"+"\n")
     else:
-        file.write("Scanned manual local moe script PASS"+"\n")
+        file.write("PASS: manual local moe script"+"\n")
 
 
     file.write("\n"+"Scanning 5: =================Manual types of LOE and Local MOE scripts scanning result====================="+"\n") 
-    if len(loe_manual_scan)>=1:
+    if (len(loe_manual_scan)>=1) or (len(local_moe_manual_scan)>=1):
         file.write("==> The following local moe/LOE script(s) are set to wrong source type"+"\n")
         for result in loe_manual_scan:
             # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
@@ -78,7 +78,7 @@ def RunCodeScanner(mypath):
             # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
             file.write(result+"\n")
     else:
-        file.write("Scanned loe/local moe script source type PASS"+"\n")
+        file.write("PASS: loe or local moe script source type"+"\n")
 
     file.write("\n"+"================================================================================================"+"\n") 
     file.write("================= Warning: Please remind FPs to update the following items =====================") 
@@ -91,7 +91,7 @@ def RunCodeScanner(mypath):
             # file.write(result+": Header Result Failed!! "+"\n")
             file.write(result+"\n")
     else:
-        file.write("Scanned script header information PASS"+"\n")
+        file.write("PASS: script header information"+"\n")
 
     file.write("\n"+"Scanning 7: =================Corp 7 menu function list scanning result====================="+"\n") 
     if len(corp7_menu_function_list_scan)>=1:
@@ -100,7 +100,7 @@ def RunCodeScanner(mypath):
             # file.write(result+": Scanned presence of CORP7 menu function list script, please state refresh cache step in promotion form "+"\n")
             file.write(result+"\n")
     else:
-        file.write("Scanned No CORP7 menu function list included"+"\n")
+        file.write("PASS: no CORP7 menu function list included"+"\n")
         
     file.close()
 
