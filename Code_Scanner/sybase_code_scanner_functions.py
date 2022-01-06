@@ -86,8 +86,8 @@ def checkSybaseHospcode(sql_file_list, hospcode):
             # if (script_type in sql_file) and (hospcode in file):
             if hospcode in file:
                 checkHospcodeResult.append(sql_file)
-
-    return getFileName(checkHospcodeResult)
+    checkHospcodeResult=getFileName(checkHospcodeResult)
+    return checkHospcodeResult
 
 # Function 5: check script special issue
 def checkScriptSpecialIssues(sql_file_list, string_to_search):
@@ -125,13 +125,13 @@ def checkFilePath(sql_file_list, string_to_search_1, string_to_search_2):
     return getFileName(filtered_list)
 
 
-sql_file="//dc7shdns02b/CSC1/TEAMFOLDER/PPM/2021_12/Dickson_test/DP_010_imp-corp-db_UpdateCorpForwarder/DB_SERVER_LIST_CORP/corp/010_psycis29_upd_corp_forwarder.sql"
-file = open(sql_file, 'r', encoding="utf-8")
-lines = list(file.readlines())
-for line in lines:
-    i=len(lines)
-    lastline=lines[len(lines)-i]
-    print(lastline)
+# sql_file="//dc7shdns02b/CSC1/TEAMFOLDER/PPM/2021_12/Dickson_test/DP_010_imp-corp-db_UpdateCorpForwarder/DB_SERVER_LIST_CORP/corp/010_psycis29_upd_corp_forwarder.sql"
+# file = open(sql_file, 'r', encoding="utf-8")
+# lines = list(file.readlines())
+# for line in lines:
+#     i=len(lines)
+#     lastline=lines[len(lines)-i]
+#     print(lastline)
     # lastline=lines[len(lines)-1]
     # print(lastline)
 

@@ -10,12 +10,12 @@ def RunCodeScanner(mypath):
     file = open(os.path.join(mypath,"scanning_result.log"), mode="w",encoding="utf8")
     header_scan=function.checkSybaseHeader(function.getAllSqlFileList(mypath), mypath)
     basic_syntax_scan=function.checkSybaseBasicSyntax(function.getAllSqlFileList(mypath),"Go")
-    corp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist(mypath, "_corp-db_"),"##hospcode##")
-    hosp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist(mypath, "_imp-corp-db_"),"HAH" )
+    corp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_corp-db_", mypath),"##hospcode##")
+    hosp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_imp-corp-db_", mypath),"HAH" )
     corp7_menu_function_list_scan=function.checkScriptSpecialIssues(function.getAllSqlFileList(mypath),"menu_function_list")
     alter_script_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"alter table")
     db_option_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"sp_dboption")
-    local_moe_manual_content_scan=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist(mypath, "LOCAL_MOE"), "XXXmoe_db")
+    local_moe_manual_content_scan=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("LOCAL_MOE", mypath), "XXXmoe_db")
     loe_manual_scan=function.checkFilePath(function.getAllSqlFileList(mypath),"LOE","_manual_")
     local_moe_manual_scan=function.checkFilePath(function.getAllSqlFileList(mypath),"LOCAL_MOE","_manual_")
 
@@ -35,7 +35,7 @@ def RunCodeScanner(mypath):
 
 
     file.write("\n"+"Scanning 2: =================Central/Hospital E-form variable scanning result====================="+"\n") 
-    if len(corp_hospcode_scan)>=1:
+    if (len(corp_hospcode_scan) >=1) or (len(hosp_hospcode_scan) >=1):
         file.write("==> The following script(s) occurred E-form variables mistables "+"\n")
         for result in corp_hospcode_scan:
             # file.write(result+": Central script variable mistake!! "+"\n")
