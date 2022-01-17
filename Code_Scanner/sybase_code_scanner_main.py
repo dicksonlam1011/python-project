@@ -10,7 +10,7 @@ def RunCodeScanner(mypath):
     file = open(os.path.join(mypath,"scanning_result.log"), mode="w",encoding="utf8")
     header_scan=function.checkSybaseHeader(function.getAllSqlFileList(mypath), mypath)
     basic_syntax_scan=function.checkSybaseBasicSyntax(function.getAllSqlFileList(mypath),"Go")
-    corp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_corp-db_", mypath),"##hospcode##")
+    corp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_corp-db_", mypath),"##hospcode")
     hosp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_imp-corp-db_", mypath),"HAH" )
     corp7_menu_function_list_scan=function.checkScriptSpecialIssues(function.getAllSqlFileList(mypath),"menu_function_list")
     alter_script_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"alter table")
@@ -26,7 +26,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 1: =================Syntax scanning result====================="+"\n")
     if len(basic_syntax_scan)>=1:
-        file.write("==> The following script(s) missing 'GO' in the scripts"+"\n")
+        file.write("Alert: The following script(s) missing 'GO' in the scripts"+"\n")
         for result in basic_syntax_scan:
                 # file.write(result+": Go is missing in the script !! "+"\n")
                 file.write(result+"\n")
@@ -36,7 +36,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 2: =================Central/Hospital E-form variable scanning result====================="+"\n") 
     if (len(corp_hospcode_scan) >=1) or (len(hosp_hospcode_scan) >=1):
-        file.write("==> The following script(s) occurred E-form variables mistables "+"\n")
+        file.write("Alert: The following script(s) occurred E-form variables mistables "+"\n")
         for result in corp_hospcode_scan:
             # file.write(result+": Central script variable mistake!! "+"\n")
             file.write(result+"\n")
@@ -48,7 +48,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 3: =================Alter scripts scanning result====================="+"\n") 
     if (len(alter_script_scan)>=1) or (len(db_option_scan)>=1):
-        file.write("==> The following script(s) of Alter Tables are NOT set to be manual types"+"\n")
+        file.write("Alert: The following script(s) of Alter Tables are NOT set to be manual types"+"\n")
         for result in alter_script_scan:
             # file.write(result+": Scanned alter scripts are NOT set to be manual workflow"+"\n")
             file.write(result+"\n")
@@ -61,7 +61,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 4: =================Local MOE scripts scanning result====================="+"\n") 
     if len(local_moe_manual_content_scan)>=1:
-        file.write("==> The following local moe script(s) missing 'XXXmoe_db' in PPM"+"\n")
+        file.write("Alert: The following local moe script(s) missing 'XXXmoe_db' in PPM"+"\n")
         for result in local_moe_manual_content_scan:
             file.write(result+": Scanned local moe imp-manual scripts no XXXmoe_db"+"\n")
     else:
@@ -70,7 +70,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 5: =================Manual types of LOE and Local MOE scripts scanning result====================="+"\n") 
     if (len(loe_manual_scan)>=1) or (len(local_moe_manual_scan)>=1):
-        file.write("==> The following local moe/LOE script(s) are set to wrong source type"+"\n")
+        file.write("Alert: The following local moe/LOE script(s) are set to wrong source type"+"\n")
         for result in loe_manual_scan:
             # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
             file.write(result+"\n")
@@ -86,7 +86,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 6: =================Header scanning result====================="+"\n")
     if len(header_scan)>=1:
-        file.write("==> The following script(s) Header Information (script name) does NOT matched with the source"+"\n")
+        file.write("Warning: The following script(s) Header Information (script name) does NOT matched with the source"+"\n")
         for result in header_scan:
             # file.write(result+": Header Result Failed!! "+"\n")
             file.write(result+"\n")
@@ -95,7 +95,7 @@ def RunCodeScanner(mypath):
 
     file.write("\n"+"Scanning 7: =================Corp 7 menu function list scanning result====================="+"\n") 
     if len(corp7_menu_function_list_scan)>=1:
-        file.write("==> The following script(s) involve CORP7 menu function list, please check the E-form setup information for the step of refresh cache"+"\n")
+        file.write("Warning: The following script(s) involve CORP7 menu function list, please check the E-form setup information for the step of refresh cache"+"\n")
         for result in corp7_menu_function_list_scan:
             # file.write(result+": Scanned presence of CORP7 menu function list script, please state refresh cache step in promotion form "+"\n")
             file.write(result+"\n")
@@ -104,4 +104,10 @@ def RunCodeScanner(mypath):
         
     file.close()
 
+# !!! execute the code scanner
 RunCodeScanner(mypath)
+
+
+
+
+

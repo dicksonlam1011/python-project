@@ -2,11 +2,21 @@ import datetime
 import os
 import operator
 
+
+
 def getAllSqlFileList(mypath):
     sql_file_list = []
     for (dirpath, subdirs, files) in os.walk(mypath):
         for x in files:
             if x.endswith((".sql",".ppm",".aat",".pps",".prd")):
+                sql_file_list.append(os.path.join(dirpath, x))
+    return sql_file_list
+
+def getAllSpecialSqlFileList(mypath):
+    sql_file_list = []
+    for (dirpath, subdirs, files) in os.walk(mypath):
+        for x in files:
+            if not x.endswith((".sql",".ppm",".aat",".pps",".prd")):
                 sql_file_list.append(os.path.join(dirpath, x))
     return sql_file_list
 
@@ -66,6 +76,7 @@ def checkSybaseBasicSyntax(sql_file_list, string_to_search):
                 checkBasicSyntaxResult.append(sql_file)
     return getFileName(checkBasicSyntaxResult)
 
+
 # Function 3: check db and table match
 # def checkSybaseDBandTable(sql_file_list, use_db, table):
 #     for sql_file in sql_file_list:
@@ -95,7 +106,7 @@ def checkScriptSpecialIssues(sql_file_list, string_to_search):
     for sql_file in sql_file_list:
         with open(sql_file, 'r', encoding="utf-8") as file:
             file = file.read()
-            if (string_to_search.lower() in file) or (string_to_search.upper() in file):
+            if (string_to_search.lower() in file) or (string_to_search.upper() in file) or (string_to_search in file):
                 check_script_result.append(sql_file)
     return getFileName(check_script_result)
 
@@ -124,17 +135,31 @@ def checkFilePath(sql_file_list, string_to_search_1, string_to_search_2):
             filtered_list.append(sql_file)
     return getFileName(filtered_list)
 
+# Function 8: check GO in the last line
+def checkLastLine(sql_file_list, string_to_search):
+    filtered_list=[]
+    for sql_file in sql_file_list:
+        with open(sql_file, 'r', encoding="utf-8") as file:
+            lines = (line.rstrip() for line in file)
+            lines = list(line for line in lines if line) 
+            lastline=lines[len(lines)-1]
+            if (lastline!=string_to_search.lower()) and (lastline!=string_to_search.upper()) and (lastline!=string_to_search):
+                # print(lastline)
+                filtered_list.append(sql_file)
+    
+    return getFileName(filtered_list)
 
-# sql_file="//dc7shdns02b/CSC1/TEAMFOLDER/PPM/2021_12/Dickson_test/DP_010_imp-corp-db_UpdateCorpForwarder/DB_SERVER_LIST_CORP/corp/010_psycis29_upd_corp_forwarder.sql"
-# file = open(sql_file, 'r', encoding="utf-8")
-# lines = list(file.readlines())
-# for line in lines:
-#     i=len(lines)
-#     lastline=lines[len(lines)-i]
-#     print(lastline)
-    # lastline=lines[len(lines)-1]
-    # print(lastline)
+# Function 9: get the file path last element
+def getfilePathLastElement(mypath):
+    return mypath.split("\\")[-1]
 
+# # --> testing <--
+# mypath=input("Plesae input the PPM source path:"+"\n")
+# # print(getAllSpecialSqlFileList(mypath))
+# print(getfilePathLastElement(mypath))
+
+
+  
 
 
 
