@@ -16,6 +16,7 @@ def RunCodeScanner(mypath):
     space_script_name_scan=function.checkFileNameSpace(function.getAllSqlFileList(mypath))
     corp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_corp-db_", mypath),"##hospcode")
     hosp_hospcode_scan=function.checkSybaseHospcode(function.getSpecificTypeSqlFilelist("_imp-corp-db_", mypath),"HAH" )
+    env_missing_scan=function.checkMissingEnvFiles(function.getAllSqlFileList(mypath))
     corp7_menu_function_list_scan=function.checkScriptSpecialIssues(function.getAllSqlFileList(mypath),"menu_function_list")
     alter_script_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"alter table")
     db_option_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"sp_dboption")
@@ -25,6 +26,7 @@ def RunCodeScanner(mypath):
     manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_manual_", mypath), "use")
     imp_manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_imp-manual_", mypath), "use")
     drop_table_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"drop table")
+
 
 
     # Output log file
@@ -108,6 +110,15 @@ def RunCodeScanner(mypath):
             file.write(result+"\n")
     else:
         file.write("PASS: drop table script scanning okay"+"\n")
+    
+    if len(env_missing_scan)>=1:
+        file.write("\n"+"Alert 8: ================= All Env scripts scanning result ====================="+"\n")
+        file.write("The following sql files missing at least one environment version"+"\n")
+        for result in env_missing_scan:
+            # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
+            file.write(result+"\n")
+    else:
+        file.write("PASS: all env scripts scanned okay"+"\n")
 
     file.write("\n"+"================================================================================================"+"\n") 
     file.write("================= Warning: Please remind FPs to update the following items =====================") 

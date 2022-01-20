@@ -173,6 +173,38 @@ def checkFileNameSpace(sql_file_list):
             filtered_list.append(sql_file)
     return filtered_list
 
+# Function 12: check missing env script
+def checkMissingEnvFiles(sql_file_list):
+    filtered_list=[]
+    all_env_list=[]
+    env_only_list=[]
+    sql_name_list=[]
+    repeated_sql_name_list=[]
+    for sql_file in sql_file_list:
+        # if (sql_file.endswith((".ppm",".aat",".pps",".prd")) >= 1) and ((sql_file.endswith(".ppm") < 1) or (sql_file.endswith(".aat") < 1) or (sql_file.endswith(".pps") < 1) or ((sql_file.endswith(".prd") < 1))):
+        # if ((sql_file.endswith(".ppm") < 1) or (sql_file.endswith(".aat") < 1) or (sql_file.endswith(".pps") < 1) or ((sql_file.endswith(".prd") < 1))):
+        if sql_file.endswith((".ppm",".aat",".pps",".prd")):
+            all_env_list.append(sql_file)
+    
+    all_env_list = getFileName(all_env_list)
+    # all_env_list = set(all_env_list)
+    if len(all_env_list) >= 1: 
+        for env_file in all_env_list:
+            env_only_list.append(env_file.split(".sql.")[1])
+
+        for env_file in all_env_list:
+            sql_name_list.append(env_file.split(".sql.")[0])
+    
+    for sql_name_file in sql_name_list:
+        if sql_name_list.count(sql_name_file) > 1:
+            repeated_sql_name_list.append(sql_name_file)
+    
+    # if ("ppm" not in env_only_list) or ("aat" not in env_only_list) or ("pps" not in env_only_list) or ("prd" not in env_only_list):
+    if len(repeated_sql_name_list) % 4 != 0:
+        return all_env_list
+    else:
+        all_env_list=[]
+        return all_env_list
 
 
 
