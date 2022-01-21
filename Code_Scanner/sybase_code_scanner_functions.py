@@ -3,6 +3,13 @@ import os
 import operator
 
 
+def getAllFileList(mypath):
+    all_file_list = []
+    for (dirpath, subdirs, files) in os.walk(mypath):
+        for x in files:
+            all_file_list.append(os.path.join(dirpath, x))
+    return all_file_list
+
 
 def getAllSqlFileList(mypath):
     sql_file_list = []
@@ -205,6 +212,20 @@ def checkMissingEnvFiles(sql_file_list):
     else:
         all_env_list=[]
         return all_env_list
+
+# Function 13: get exception list 
+def getExceptionList(file_list):
+    filtered_list=[]
+    file_list=getFileName(file_list)
+    for file in file_list:
+        if not file.endswith((".sql",".ppm",".aat",".pps",".prd")):
+            filtered_list.append(file)
+    return filtered_list
+
+
+# mypath=input("Plesae input the PPM source path:"+"\n")
+# print(getExceptionList(getAllFileList(mypath)))
+
 
 
 

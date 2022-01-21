@@ -26,6 +26,7 @@ def RunCodeScanner(mypath):
     manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_manual_", mypath), "use")
     imp_manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_imp-manual_", mypath), "use")
     drop_table_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"drop table")
+    exception_list=function.getExceptionList(function.getAllFileList(mypath))
 
 
 
@@ -173,7 +174,15 @@ def RunCodeScanner(mypath):
             file.write(result+"\n")
     else:
         file.write("PASS: no while space found in filenames"+"\n")
-        
+    
+    if len(exception_list) > 1:
+        file.write("\n"+"================================================================================================"+"\n") 
+        file.write("================= Exception List: The following scripts are NOT scanned ====================="+"\n") 
+        file.write("================= Please perform checking manually ====================="+"\n") 
+        file.write("================================================================================================"+"\n") 
+        for result in exception_list:
+            file.write(result+"\n")
+            
     file.close()
 
 # !!! execute the code scanner
