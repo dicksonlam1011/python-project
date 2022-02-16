@@ -1,6 +1,7 @@
 import datetime
 import os
 import operator
+import re
 
 
 def getAllFileList(mypath):
@@ -62,7 +63,7 @@ def checkHeaderInTheScript(content, mypath):
 def checkSybaseHeader(sql_file_list, mypath):
     HeaderMatchedList=[]
     for sql_file in sql_file_list:
-        with open(sql_file, 'r', encoding="utf-8") as file:
+        with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
             HeaderMatchedList.append(checkHeaderInTheScript(file, mypath))
 
@@ -77,7 +78,7 @@ def checkSybaseBasicSyntax(sql_file_list, string_to_search):
     checkBasicSyntaxResult=[]
     # print(sql_file_list)
     for sql_file in sql_file_list:
-        with open(sql_file, 'r', encoding="utf-8") as file:
+        with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
             if (string_to_search.lower() not in file) and (string_to_search.upper() not in file) and (string_to_search not in file):
                 checkBasicSyntaxResult.append(sql_file)
@@ -87,7 +88,7 @@ def checkSybaseBasicSyntax(sql_file_list, string_to_search):
 # Function 3: check db and table match
 # def checkSybaseDBandTable(sql_file_list, use_db, table):
 #     for sql_file in sql_file_list:
-#         with open(sql_file, 'r', encoding="utf-8") as file:
+#         with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
 #             file = file.read()
 #             if (use_db in file) and (table in file):
 #                 print("{}: DB & Table Structure Pass".format(sql_file))
@@ -99,7 +100,7 @@ def checkSybaseHospcode(sql_file_list, hospcode):
     checkHospcodeResult=[]
     for sql_file in sql_file_list:
         # for sql_filename in sql_filename_list:
-        with open(sql_file, 'r', encoding="utf-8") as file:
+        with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
             # if (script_type in sql_file) and (hospcode in file):
             if hospcode in file:
@@ -111,7 +112,7 @@ def checkSybaseHospcode(sql_file_list, hospcode):
 def checkScriptSpecialIssues(sql_file_list, string_to_search):
     check_script_result=[]
     for sql_file in sql_file_list:
-        with open(sql_file, 'r', encoding="utf-8") as file:
+        with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
             if (string_to_search.lower() in file) or (string_to_search.upper() in file) or (string_to_search in file):
                 check_script_result.append(sql_file)
@@ -123,7 +124,7 @@ def checkScriptSpecialIssues(sql_file_list, string_to_search):
 def checkUnsupportedScript(sql_file_list, string_to_search):
     filtered_list=[]
     for sql_file in sql_file_list:
-        with open(sql_file, 'r', encoding="utf-8") as file:
+        with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
             if ((string_to_search.lower() in file) or (string_to_search.upper() in file)) and ("_imp-manual_" not in sql_file) and ("_manual_" not in sql_file):
                 filtered_list.append(sql_file)
@@ -147,7 +148,7 @@ def checkFilePath(sql_file_list, string_to_search_1, string_to_search_2):
 def checkLastLine(sql_file_list, string_to_search):
     filtered_list=[]
     for sql_file in sql_file_list:
-        with open(sql_file, 'r', encoding="utf-8") as file:
+        with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             lines = (line.rstrip() for line in file)
             lines = list(line for line in lines if line) 
             if len(lines) > 0:
@@ -222,10 +223,16 @@ def getExceptionList(file_list):
             filtered_list.append(file)
     return filtered_list
 
+def checkChineseChar(sql_file_list):
+    filtered_list=[]
 
-# mypath=input("Plesae input the PPM source path:"+"\n")
-# print(getExceptionList(getAllFileList(mypath)))
-
+    for sql_file in sql_file_list:
+        with open(sql_file, 'r', errors='ignore') as file:
+            file = file.read()
+            if re.search('[\u4e00-\u9fff]', file):
+                filtered_list.append(sql_file)
+    filtered_list=getFileName(filtered_list)
+    return filtered_list
 
 
 

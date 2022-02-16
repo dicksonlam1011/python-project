@@ -27,6 +27,7 @@ def RunCodeScanner(mypath):
     imp_manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_imp-manual_", mypath), "use")
     drop_table_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"drop table")
     exception_list=function.getExceptionList(function.getAllFileList(mypath))
+    chinese_sql_list=function.checkChineseChar(function.getAllFileList(mypath))
 
 
 
@@ -175,14 +176,22 @@ def RunCodeScanner(mypath):
     else:
         file.write("PASS: no while space found in filenames"+"\n")
     
+    if len(chinese_sql_list)>=1:
+        file.write("\n"+"Warning 6: ================= Chinese character scanning result ====================="+"\n")
+        file.write("The following script(s) involve chinese characters in the content, please mention in setup information" + "\n")
+        for result in chinese_sql_list:
+            # file.write(result+": Scanned presence of CORP7 menu function list script, please state refresh cache step in promotion form "+"\n")
+            file.write(result+"\n")
+    else:
+        file.write("PASS: no chinese character found"+"\n")
+    
     if len(exception_list) > 1:
         file.write("\n"+"================================================================================================"+"\n") 
         file.write("================= Exception List: The following scripts are NOT scanned ====================="+"\n") 
         file.write("================= Please perform checking manually ====================="+"\n") 
         file.write("================================================================================================"+"\n") 
         for result in exception_list:
-            file.write(result+"\n")
-            
+            file.write(result+"\n")            
     file.close()
 
 # !!! execute the code scanner
