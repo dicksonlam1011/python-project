@@ -20,7 +20,7 @@ def RunCodeScanner(mypath):
     corp7_menu_function_list_scan=function.checkScriptSpecialIssues(function.getAllSqlFileList(mypath),"menu_function_list")
     alter_script_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"alter table")
     db_option_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"sp_dboption")
-    local_moe_manual_content_scan=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("LOCAL_MOE", mypath), "XXXmoe_db")
+    local_moe_manual_content_scan=function.checkSybaseBasicSyntax(function.getSpecificTypeCheckingSqlFilelist("LOCAL_MOE", "_imp-manual_" , mypath), "XXXmoe_db")
     loe_manual_scan=function.checkFilePath(function.getAllSqlFileList(mypath),"LOE","_manual_")
     local_moe_manual_scan=function.checkFilePath(function.getAllSqlFileList(mypath),"LOCAL_MOE","_manual_")
     manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_manual_", mypath), "use")
@@ -28,6 +28,7 @@ def RunCodeScanner(mypath):
     drop_table_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"drop table")
     exception_list=function.getExceptionList(function.getAllFileList(mypath))
     chinese_sql_list=function.checkChineseChar(function.getAllFileList(mypath))
+    imp_corp_scan_hospital_variable=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_imp-corp-db_", mypath), "##hospcode")
 
 
 
@@ -94,10 +95,13 @@ def RunCodeScanner(mypath):
         file.write("PASS: loe or local moe script source type scanning okay"+"\n")
     
      
-    if len(manual_script_syntax)>=1:
+    if (len(manual_script_syntax)>=1) or (len(imp_manual_script_syntax) >=1):
         file.write("\n"+"Alert 6: ================= Manual types of scripts syntax scanning result ====================="+"\n")
         file.write("The following manual scripts missing use db, go"+"\n")
         for result in manual_script_syntax:
+            # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
+            file.write(result+"\n")
+        for result in imp_manual_script_syntax:
             # file.write(result+": Scanned Loe/ local moe manual-workflow script wrong script type"+"\n")
             file.write(result+"\n")
     else:
@@ -121,6 +125,15 @@ def RunCodeScanner(mypath):
             file.write(result+"\n")
     else:
         file.write("PASS: all env scripts scanned okay"+"\n")
+
+    if len(imp_corp_scan_hospital_variable)>=1:
+        file.write("\n"+"Alert 9: ================= IMP CORP script scanning result ====================="+"\n")
+        file.write("The following sql files missing E-form hospital variables in the content"+"\n")
+        for result in imp_corp_scan_hospital_variable:
+            file.write(result+"\n")
+    else:
+        file.write("PASS: all imp-corp-db scripts scanned okay"+"\n")
+
 
     file.write("\n"+"================================================================================================"+"\n") 
     file.write("================= Warning: Please remind FPs to update the following items =====================") 

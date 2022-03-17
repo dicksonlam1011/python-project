@@ -38,12 +38,31 @@ def getSpecificTypeSqlFilelist(script_type, mypath):
                 sql_file_list.append(os.path.join(dirpath, x))
     return sql_file_list
 
+def getSpecificTypeCheckingSqlFilelist(script_type, special_checking  , mypath):
+    sql_file_list = []
+    for (dirpath, subdirs, files) in os.walk(mypath):
+        for x in files:
+            # if operator.contains(x, "imp-corp-db"):
+            if x.endswith((".sql",".ppm",".aat",".pps",".prd")) and (script_type in dirpath) and (special_checking in dirpath) :
+                sql_file_list.append(os.path.join(dirpath, x))
+    return sql_file_list
+
 def getFileNameOnly(sql_file_list):
     # get filename only
     filename=[]
     for sql_file in sql_file_list:
         filename.append(sql_file.split("\\")[-1])
     return filename
+
+# def getFileNameOnlyWithoutSeqNumnber(filename):
+#     # get filename only
+#     filename=[]
+#     filename_without_seq_mumber=[]
+#     for sql_file in sql_file_list:
+#         filename.append(sql_file.split("\\")[-1][4:])
+#     return filename
+
+# print(getFileNameOnlyWithoutSeqNumnber("040_CCE-164_script_insert_team_call_rules_rollback.sql"))
 
 # get the last 4 element in the file path list
 def getFileName(sql_file_list):
@@ -54,18 +73,20 @@ def getFileName(sql_file_list):
     return file_path
 
 # Function 1: check header
-def checkHeaderInTheScript(content, mypath):
-    filename_list=getFileNameOnly(getAllSqlFileList(mypath))
-    for filename in filename_list:
-        if filename in content:
-            return filename
+# def checkHeaderInTheScript(content, mypath):
+#     filename_list=getFileNameOnly(getAllSqlFileList(mypath))
+#     for filename in filename_list:
+#         if filename[4:] in content:
+#             return filename
 
 def checkSybaseHeader(sql_file_list, mypath):
     HeaderMatchedList=[]
     for sql_file in sql_file_list:
         with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
-            HeaderMatchedList.append(checkHeaderInTheScript(file, mypath))
+            # print(sql_file.split("\\")[-1][4:])
+            if sql_file.split("\\")[-1][4:] in file:
+                HeaderMatchedList.append(sql_file.split("\\")[-1])
 
     filename_list=getFileNameOnly(getAllSqlFileList(mypath))
     # print(filename_list)
