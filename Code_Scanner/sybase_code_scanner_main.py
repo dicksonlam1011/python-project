@@ -7,7 +7,7 @@ def RunCodeScanner(mypath):
 
 
     # Call Function
-    file = open(os.path.join(mypath,"scanning_result.log"), mode="w",encoding="utf8")
+    file = open(os.path.join(mypath,"{}_scanning_result.log".format(function.getfilePathLastElement(mypath))), mode="w",encoding="utf8")
     headerName_scan=function.checkSybaseHeader(function.getAllSqlFileList(mypath), mypath)
     header_scan_1=function.checkSybaseBasicSyntax(function.getAllSqlFileList(mypath),"/*")
     # header_scan_2=function.checkSybaseBasicSyntax(function.getAllSqlFileList(mypath),"*/")
@@ -27,7 +27,7 @@ def RunCodeScanner(mypath):
     imp_manual_script_syntax=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_imp-manual_", mypath), "use")
     drop_table_scan=function.checkUnsupportedScript(function.getAllSqlFileList(mypath),"drop table")
     exception_list=function.getExceptionList(function.getAllFileList(mypath))
-    chinese_sql_list=function.checkChineseChar(function.getAllFileList(mypath))
+    chinese_sql_list=function.checkChineseChar(function.getAllSqlFileList(mypath))
     imp_corp_scan_hospital_variable=function.checkSybaseBasicSyntax(function.getSpecificTypeSqlFilelist("_imp-corp-db_", mypath), "##hospcode")
 
 

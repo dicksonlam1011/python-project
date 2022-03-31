@@ -85,7 +85,8 @@ def checkSybaseHeader(sql_file_list, mypath):
         with open(sql_file, 'r', encoding="utf-8", errors='ignore') as file:
             file = file.read()
             # print(sql_file.split("\\")[-1][4:])
-            if sql_file.split("\\")[-1][4:] in file:
+            # if sql_file.split("\\")[-1][4:] in file:
+            if sql_file.split("\\")[-1] in file:
                 HeaderMatchedList.append(sql_file.split("\\")[-1])
 
     filename_list=getFileNameOnly(getAllSqlFileList(mypath))
