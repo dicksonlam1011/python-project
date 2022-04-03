@@ -209,6 +209,7 @@ def RunCodeScanner(mypath):
 
 # !!! execute the code scanner
 RunCodeScanner(mypath)
+<<<<<<< HEAD
 
 
 
@@ -220,3 +221,5 @@ RunCodeScanner(mypath)
 
 
 
+=======
+>>>>>>> main
