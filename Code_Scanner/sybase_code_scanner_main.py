@@ -213,10 +213,10 @@ RunCodeScanner(mypath)
 
 
 # print("new function 1")
-# print("new function 1")
-# print("new function 1")
-# print("new function 1")
-# print("new function 1")
+# print("new function 2")
+# print("new function 3")
+# print("new function 4")
+# print("new function 5")
 
 
 
