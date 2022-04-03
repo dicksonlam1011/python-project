@@ -209,10 +209,3 @@ def RunCodeScanner(mypath):
 
 # !!! execute the code scanner
 RunCodeScanner(mypath)
-
-
-
-
-
-
-
