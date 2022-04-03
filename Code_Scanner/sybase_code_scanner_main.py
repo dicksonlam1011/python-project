@@ -212,8 +212,5 @@ RunCodeScanner(mypath)
 
 
 
-# print("Test GitHub Branches Administration")
-
-
 
 
