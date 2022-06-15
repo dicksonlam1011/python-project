@@ -16,7 +16,7 @@ def getAllSqlFileList(mypath):
     sql_file_list = []
     for (dirpath, subdirs, files) in os.walk(mypath):
         for x in files:
-            if x.endswith((".sql",".ppm",".aat",".pps",".prd")):
+            if x.endswith((".sql".upper(),".sql".lower(),".ppm",".aat",".pps",".prd")):
                 sql_file_list.append(os.path.join(dirpath, x))
     return sql_file_list
 
